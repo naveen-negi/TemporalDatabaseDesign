@@ -1,0 +1,33 @@
+version: '3.9'
+
+services:
+  productpricing-api:
+    build:
+      context: .
+      dockerfile: src/ProductPricing/ProductPricing.API/Dockerfile
+    ports:
+      - "5055:5260"
+      - "47600:10800"
+    volumes:
+      - ./src/ProductPricing/ProductPricing.API:/build/src/ProductPricing/ProductPricing.API
+    environment:
+      ConnectionStrings__TariffDB: "Host=productpricing-db; Database=tariff_db; Port=5432; Username=tariff_dev; Password=password"
+      PaymentsService__baseUrl: "http://payments-api:5057"
+      SessionOrchestratorService__baseUrl: "http://orchestrator-api:5118"
+
+  productpricing-db:
+    image: postgres:16.0-alpine
+    ports:
+      - "5437:5432"
+    volumes:
+      - ./volume/tariff_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_USER=tariff_dev
+      - POSTGRES_DB=tariff_db
+        
+  jaeger:
+    image: jaegertracing/all-in-one:latest
+    ports:
+      - "6831:6831/udp"
+      - "16686:16686"
