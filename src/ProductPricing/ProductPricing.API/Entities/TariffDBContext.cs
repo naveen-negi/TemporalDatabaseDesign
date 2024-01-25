@@ -16,6 +16,13 @@ public class TariffDBContext : DbContext
         optionsBuilder.UseNpgsql(Configuration.GetConnectionString("TariffDB"));
     }
 
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<CurrentTariff>()
+            .Property(e => e.PriceSince)
+            .HasColumnType("daterange");
+    }
+
     public DbSet<Tariff> Tariffs { get; set; } = null!;
     public DbSet<CurrentTariff> CurrentTariffs { get; set; } = null!;
     public DbSet<TriggerLog> TriggerLogs { get; set; } = null!;
