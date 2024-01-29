@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using NpgsqlTypes;
@@ -12,9 +13,11 @@ using ProductPricing.API.Entities;
 namespace ProductPricing.API.Migrations
 {
     [DbContext(typeof(TariffDBContext))]
-    partial class TariffDBContextModelSnapshot : ModelSnapshot
+    [Migration("20240125165657_AddConstraintForUniquePriorityForGivenRange")]
+    partial class AddConstraintForUniquePriorityForGivenRange
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -39,9 +42,8 @@ namespace ProductPricing.API.Migrations
                     b.Property<NpgsqlRange<DateTime>>("PriceSince")
                         .HasColumnType("daterange");
 
-                    b.Property<string>("TariffType")
-                        .IsRequired()
-                        .HasColumnType("varchar(255)");
+                    b.Property<int>("Priority")
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 

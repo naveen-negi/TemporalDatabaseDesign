@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using NpgsqlTypes;
@@ -12,9 +13,11 @@ using ProductPricing.API.Entities;
 namespace ProductPricing.API.Migrations
 {
     [DbContext(typeof(TariffDBContext))]
-    partial class TariffDBContextModelSnapshot : ModelSnapshot
+    [Migration("20240126091704_UpdateTriggerToMatchRestOfTheRow")]
+    partial class UpdateTriggerToMatchRestOfTheRow
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
